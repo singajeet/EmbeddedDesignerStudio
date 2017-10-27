@@ -1,0 +1,170 @@
+﻿<SimpleChildWindows:ChildWindow x:Class="WpfUserControls.Templates.Explorer.TemplateExplorer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"             
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Models="clr-namespace:WorkspaceProviderModule.Explorer.Models;assembly=WorkspaceProviderModule"
+             xmlns:ViewModels="clr-namespace:WorkspaceProviderModule.Explorer.ViewModels;assembly=WorkspaceProviderModule"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:SimpleChildWindows="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:b="clr-namespace:WpfUserControls.Behaviors"
+             xmlns:local="clr-namespace:WpfUserControls.Templates.Explorer"       
+             xmlns:tileView="clr-namespace:WpfUserControls.Customizations"      
+             mc:Ignorable="d" AllowMove="True" ShowCloseButton="True" Title="Select Project Template" 
+             ChildWindowWidth="600" ChildWindowHeight="450"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+	           Background="{DynamicResource MaterialDesignPaper}"
+	           TextElement.FontWeight="Medium"
+	           TextElement.FontSize="14"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto" 
+	           FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
+    <SimpleChildWindows:ChildWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+            	  <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Blue.xaml" />                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>        
+    </SimpleChildWindows:ChildWindow.Resources>
+    <SimpleChildWindows:ChildWindow.OverlayBrush>
+        <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
+    </SimpleChildWindows:ChildWindow.OverlayBrush>
+    <i:Interaction.Behaviors>
+    	<b:CloseWindowBehavior CloseTrigger="{Binding CloseTrigger}" />
+    </i:Interaction.Behaviors>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.66*" />
+            <RowDefinition Height="0.34*" />
+        </Grid.RowDefinitions>
+        <TabControl HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="0" SelectedItem="{Binding SelectedCategory}"
+                    Name="CategoriesTabControl" VerticalAlignment="Stretch" 
+                    ItemsSource="{Binding Categories}" Controls:TabControlHelper.Underlined="TabPanel">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontSize="18" HorizontalAlignment="Center"/>
+                    </StackPanel>                    
+                </DataTemplate>                
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>           
+                  <materialDesign:Card Background="{DynamicResource MaterialDesignBackground}" Margin="4 4 0 0">                        
+                      <ListBox Name="Languages" ItemsSource="{Binding LanguageTypes}" 
+                                            SelectedItem="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                    AncestorType={x:Type SimpleChildWindows:ChildWindow}}, 
+                                                                    Path=DataContext.SelectedLanguageType}">						                          
+                          <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                              <Setter Property="Padding" Value="0" />
+                            </Style>
+                          </ListBox.ItemContainerStyle>
+                          <ListBox.ItemTemplate>                          
+                              <DataTemplate>
+                                <StackPanel>
+                                  <Expander Header="{Binding Name}" Margin="0" Width="575"
+                                            IsExpanded="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                                                  AncestorType={x:Type ListBoxItem}}, 
+                                                                                  Path=IsSelected}">                                      
+                                        <ListView Name="Projects" ItemsSource="{Binding Projects}" 
+                                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" > 
+                                                <ListView.ItemsPanel>
+                                                  <ItemsPanelTemplate>                                                    
+                                                      <WrapPanel Orientation="Horizontal">                                                        
+                                                      </WrapPanel>                                                    
+                                                  </ItemsPanelTemplate>
+                                                </ListView.ItemsPanel>                                                                                   
+                                                <ListView.ItemTemplate>
+                                                  <DataTemplate>
+                                                    <materialDesign:Badged Badge="{materialDesign:PackIcon PlusCircle}" Margin="5">
+                                                              <Button Height="100" Width="100"
+                                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                          AncestorType={x:Type SimpleChildWindows:ChildWindow}}, 
+                                                                          Path=DataContext.SaveAndCloseDialogCommand}" 
+                                                                CommandParameter="{Binding Path=.}">           
+                                                              <Button.Content>
+                                                                <Grid>
+                                                                  <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="0.5*" />
+                                                                    <RowDefinition Height="0.5*" />
+                                                                  </Grid.RowDefinitions>
+                                                                    <Image Width="32" Height="32">
+                                                                      <Image.Source>
+                                                                        <BitmapImage UriSource="{Binding Icon}" />
+                                                                      </Image.Source>
+                                                                    </Image>
+                                                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Grid.Row="1"
+                                                                            TextAlignment="Center" FontSize="12" />
+                                                                </Grid>
+                                                              </Button.Content>                                                           
+                                                              </Button>
+                                                            </materialDesign:Badged> 
+                                                  </DataTemplate>
+                                                </ListView.ItemTemplate>                                                                                        
+                                        </ListView>                                      
+                                  </Expander>
+                                 <Border Background="{DynamicResource MaterialDesignDivider}" 
+                                              Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+                                </StackPanel>
+                              </DataTemplate>
+                          </ListBox.ItemTemplate>
+                      </ListBox>                    
+                  </materialDesign:Card>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+        <GroupBox Header="Project details" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.3*" />
+                </Grid.RowDefinitions>                
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="0.8*" />
+                  <ColumnDefinition Width="0.2*" />
+                </Grid.ColumnDefinitions>
+                <TextBox Name="ProjectNameTextBox" materialDesign:HintAssist.Hint="Project Name"
+                         Grid.Row="0" Grid.Column="0">
+                         <TextBox.Text>
+                         	<Binding Path="ProjectName" UpdateSourceTrigger="PropertyChanged">
+                         		<Binding.ValidationRules>
+                         			<local:TextValidator ValidationStep="RawProposedValue"></local:TextValidator>
+                         		</Binding.ValidationRules>
+                         	</Binding>
+                         </TextBox.Text>                  
+                </TextBox>                
+                <TextBox Name="ProjectPathTextBox" materialDesign:HintAssist.Hint="Project Path" Grid.Row="1"
+                         Grid.Column="0" > 
+                         <TextBox.Text>
+                         	<Binding Path="WorkspaceFolderPath" UpdateSourceTrigger="PropertyChanged">
+                         		<Binding.ValidationRules>
+                         			<local:TextValidator ValidationStep="RawProposedValue"></local:TextValidator>
+                         		</Binding.ValidationRules>
+                         	</Binding>
+                         </TextBox.Text>                       
+                </TextBox>
+                <Button Name="BrowsePathButton" Content="Browse..." Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" Click="BrowsePathButton_Click" 
+                  Style="{StaticResource MaterialDesignRaisedAccentButton}" Width="100" Margin="0,0,0,22">                    
+                </Button>
+               
+                <TextBox Name="WorkspaceNameTextBox" materialDesign:HintAssist.Hint="Workspace Name" Grid.Column="0"
+                         Grid.Row="2">
+                    <TextBox.Text>
+                        <Binding Path="WorkspaceFileName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:TextValidator ValidationStep="RawProposedValue"></local:TextValidator>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</SimpleChildWindows:ChildWindow>

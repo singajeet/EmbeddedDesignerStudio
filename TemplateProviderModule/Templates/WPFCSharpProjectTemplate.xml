@@ -1,0 +1,44 @@
+
+<Templates>
+	<Template Id="3" Name="WPF Projects Template"
+		LanguageType="CSharp"
+		Author="Ajeet Singh"
+		Category="WPFProjects"
+		Description="Default workspace template for Enbedded Designer"
+		Revision="1.0"
+		ReleaseDate="8/21/2017"
+		WorkspaceAssembly="WorkspaceProviderModule.dll"
+		WorkspaceAssemblyPath="C:\Users\Admin\Documents\Visual Studio 2010\Projects\EmbeddedDesignerStudio\GuiModule\bin\Debug"
+		WorkspaceRootNamespace="WorkspaceProviderModule.Explorer.Interfaces"
+		TypeObjectsAssembly="TemplateProviderModule.dll"
+		TypeObjectsAssemblyPath="C:\Users\Admin\Documents\Visual Studio 2010\Projects\EmbeddedDesignerStudio\GuiModule\bin\Debug"
+		TypeObjectsRootNamespace="TemplateProviderModule.Models.Types"
+		>
+		<Projects>
+  			<ProjectType id="5" name="WPF Application" interface="IProject" icon="WPF-Application-Project-icon" >
+    			<PropertyFolderType id="10" name="Properties" interface="IProjectItem" >
+      				<PropertyType id="11" interface="IProjectItem" />
+		        </PropertyFolderType>
+		        <FolderType id="3" interface="IProjectItem" >
+		          <FileType id="4" interface="IProjectItem" />
+		        </FolderType>
+		        <LibraryFolderType id="5" name="Libraries" interface="IProjectItem" >
+		          <LibraryType id="6" interface="IProjectItem" />
+		        </LibraryFolderType>
+		        <ResourceFolderType id="7" name="Resources" interface="IProjectItem" >
+		          <ResourceType id="8" interface="IProjectItem" />
+		        </ResourceFolderType>
+		        <FileType id="4" interface="IProjectItem" />
+		        <ImageType id="9" interface="IProjectItem" />
+		      </ProjectType>
+		      <ProjectType id="6" name="WPF User Control" interface="IProject" icon="WPF-User-Control-Project-icon">
+		        <PropertyFolderType id="10" name="Properties" interface="IProjectItem" >
+		          <PropertyType id="11" interface="IProjectItem" />
+		        </PropertyFolderType>
+		        <FolderType id="3" interface="IProjectItem" >
+		          <FileType id="4" interface="IProjectItem" />
+		        </FolderType>
+		      </ProjectType>
+		</Projects>
+	</Template>
+</Templates>
